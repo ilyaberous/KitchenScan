@@ -1,0 +1,25 @@
+name: IOS CI
+
+on:
+ push:
+   branches: [main]
+ pull_requests:
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: maxim-lobanov/setup-xcode@V1
+	with:
+	  xcode-version: '14.2'
+
+      - name: Build (Debug, Simulator)
+	run:  |
+	  xcodebuild \
+	    -scheme "KitchenScan" \
+	    -configuration Debug \ 
+	    -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+	    clean build | xcpretty
