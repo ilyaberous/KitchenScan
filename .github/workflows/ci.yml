@@ -18,7 +18,7 @@ jobs:
           xcode-version: '16.4'
           
       - name: List simulators (debug aid)
-        run: xcurn simctl list devices
+        run: xcrun simctl list devices
 
       - name: Build (Debug, Simulator)
         run: |
