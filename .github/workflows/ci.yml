@@ -17,13 +17,13 @@ jobs:
         with:
           xcode-version: '16.4'
           
-      - name: List simulators (debug aid)
-        run: xcrun simctl list devices
+     # - name: List simulators (debug aid)
+     #   run: xcrun simctl list devices
 
       - name: Build (Debug, Simulator)
         run: |
           xcodebuild \
             -scheme "KitchenScan" \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
             clean build
