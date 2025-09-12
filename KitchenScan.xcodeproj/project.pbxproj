@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		091AF3BD2E74669700CB9262 /* ModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ModelV1.xcdatamodel; sourceTree = "<group>"; };
 		0931FDD82E6DE78500953414 /* KitchenScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenScanApp.swift; sourceTree = "<group>"; };
 		0931FDDD2E6DE78500953414 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -354,9 +355,10 @@
 		0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				091AF3BD2E74669700CB9262 /* ModelV1.xcdatamodel */,
 				0931FDE72E6DE78600953414 /* KitchenScan.xcdatamodel */,
 			);
-			currentVersion = 0931FDE72E6DE78600953414 /* KitchenScan.xcdatamodel */;
+			currentVersion = 091AF3BD2E74669700CB9262 /* ModelV1.xcdatamodel */;
 			path = KitchenScan.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
