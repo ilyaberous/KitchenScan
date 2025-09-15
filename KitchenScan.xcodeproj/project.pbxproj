@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092E71EF2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */; };
+		092E71F62E74D93600BDBDFD /* CoreDataUniquenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */; };
 		0931FDDC2E6DE78500953414 /* KitchenScanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */; };
 		0931FDDE2E6DE78500953414 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDDD2E6DE78500953414 /* ContentView.swift */; };
 		0931FDE02E6DE78600953414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0931FDDF2E6DE78600953414 /* Assets.xcassets */; };
@@ -14,8 +16,21 @@
 		0931FDE82E6DE78600953414 /* KitchenScan.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		092E71F02E7484A300BDBDFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0931FDD02E6DE78500953414 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0931FDD72E6DE78500953414;
+			remoteInfo = KitchenScan;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		091AF3BD2E74669700CB9262 /* ModelV1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ModelV1.xcdatamodel; sourceTree = "<group>"; };
+		091AF3BD2E74669700CB9262 /* ModelV1.xcdatamodel */ = {isa = PBXFileReference; explicitFileType = wrapper.xcdatamodel; path = ModelV1.xcdatamodel; sourceTree = "<group>"; };
+		092E71EC2E7484A300BDBDFD /* KitchenScanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KitchenScanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModelMetadataTests.swift; sourceTree = "<group>"; };
+		092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUniquenessTests.swift; sourceTree = "<group>"; };
 		0931FDD82E6DE78500953414 /* KitchenScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenScanApp.swift; sourceTree = "<group>"; };
 		0931FDDD2E6DE78500953414 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -25,6 +40,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		092E71E92E7484A300BDBDFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0931FDD52E6DE78500953414 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,10 +57,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		092E71ED2E7484A300BDBDFD /* KitchenScanTests */ = {
+			isa = PBXGroup;
+			children = (
+				092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */,
+				092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */,
+			);
+			path = KitchenScanTests;
+			sourceTree = "<group>";
+		};
 		0931FDCF2E6DE78500953414 = {
 			isa = PBXGroup;
 			children = (
 				0931FDDA2E6DE78500953414 /* KitchenScan */,
+				092E71ED2E7484A300BDBDFD /* KitchenScanTests */,
 				0931FDD92E6DE78500953414 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				0931FDD82E6DE78500953414 /* KitchenScan.app */,
+				092E71EC2E7484A300BDBDFD /* KitchenScanTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,6 +107,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		092E71EB2E7484A300BDBDFD /* KitchenScanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 092E71F42E7484A300BDBDFD /* Build configuration list for PBXNativeTarget "KitchenScanTests" */;
+			buildPhases = (
+				092E71E82E7484A300BDBDFD /* Sources */,
+				092E71E92E7484A300BDBDFD /* Frameworks */,
+				092E71EA2E7484A300BDBDFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				092E71F12E7484A300BDBDFD /* PBXTargetDependency */,
+			);
+			name = KitchenScanTests;
+			productName = KitchenScanTests;
+			productReference = 092E71EC2E7484A300BDBDFD /* KitchenScanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0931FDD72E6DE78500953414 /* KitchenScan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0931FDEB2E6DE78600953414 /* Build configuration list for PBXNativeTarget "KitchenScan" */;
@@ -101,6 +152,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					092E71EB2E7484A300BDBDFD = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 0931FDD72E6DE78500953414;
+					};
 					0931FDD72E6DE78500953414 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -120,11 +175,19 @@
 			projectRoot = "";
 			targets = (
 				0931FDD72E6DE78500953414 /* KitchenScan */,
+				092E71EB2E7484A300BDBDFD /* KitchenScanTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		092E71EA2E7484A300BDBDFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0931FDD62E6DE78500953414 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,6 +200,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		092E71E82E7484A300BDBDFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				092E71F62E74D93600BDBDFD /* CoreDataUniquenessTests.swift in Sources */,
+				092E71EF2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0931FDD42E6DE78500953414 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -149,7 +221,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		092E71F12E7484A300BDBDFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0931FDD72E6DE78500953414 /* KitchenScan */;
+			targetProxy = 092E71F02E7484A300BDBDFD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		092E71F22E7484A300BDBDFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6KLWRFJA68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ilya-tatsenko.KitchenScanTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KitchenScan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KitchenScan";
+			};
+			name = Debug;
+		};
+		092E71F32E7484A300BDBDFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6KLWRFJA68;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ilya-tatsenko.KitchenScanTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KitchenScan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KitchenScan";
+			};
+			name = Release;
+		};
 		0931FDE92E6DE78600953414 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -327,6 +443,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		092E71F42E7484A300BDBDFD /* Build configuration list for PBXNativeTarget "KitchenScanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				092E71F22E7484A300BDBDFD /* Debug */,
+				092E71F32E7484A300BDBDFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0931FDD32E6DE78500953414 /* Build configuration list for PBXProject "KitchenScan" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
