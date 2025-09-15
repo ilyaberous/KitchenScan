@@ -52,7 +52,7 @@ final class CoreDataUniquenessTests: XCTestCase {
             let e = NSEntityDescription.insertNewObject(forEntityName: "KitchenItem", into: ctx1)
             e.setValue(barcode, forKey: "barcode")
             e.setValue("Молоко", forKey: "name")
-            e.setValue(1.0,      forKey: "count")
+            e.setValue(1.0,      forKey: "quantity")
             e.setValue("pcs",    forKey: "unit")
             e.setValue(Int16(0), forKey: "locationRaw")
             try ctx1.save()
@@ -66,7 +66,7 @@ final class CoreDataUniquenessTests: XCTestCase {
             let e = NSEntityDescription.insertNewObject(forEntityName: "KitchenItem", into: ctx2)
             e.setValue(barcode, forKey: "barcode")
             e.setValue("Новое имя", forKey: "name")
-            e.setValue(3.0,         forKey: "count")
+            e.setValue(3.0,         forKey: "quantity")
             e.setValue("pcs",       forKey: "unit")
             e.setValue(Int16(0),    forKey: "locationRaw")
             try ctx2.save() // здесь должна быть выкинута ошибка, иначе уникальность не работает
