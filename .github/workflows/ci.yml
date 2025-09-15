@@ -25,5 +25,9 @@ jobs:
           xcodebuild \
             -scheme "KitchenScan" \
             -configuration Debug \
+            -enableCodeCoverage YES \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
-            clean build
+            clean test \
+            SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
+            CLANG_WARN_UNGUARDED_AVAILABILITY=YES_AGGRESSIVE \
+            IPHONEOS_DEPLOYMENT_TARGET=16.2
