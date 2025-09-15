@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: macos-15
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
@@ -20,14 +21,27 @@ jobs:
      # - name: List simulators (debug aid)
      #   run: xcrun simctl list devices
 
-      - name: Build (Debug, Simulator)
+     - name: Build for Testing (Debug)
         run: |
+          set -euo pipefail
           xcodebuild \
             -scheme "KitchenScan" \
             -configuration Debug \
+            -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.5' \
-            clean test \
+            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15 Pro' \
+            clean build-for-testing \
             SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
             CLANG_WARN_UNGUARDED_AVAILABILITY=YES_AGGRESSIVE \
             IPHONEOS_DEPLOYMENT_TARGET=16.2
+
+      - name: Test (without building)
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -scheme "KitchenScan" \
+            -configuration Debug \
+            -derivedDataPath build \
+            -enableCodeCoverage YES \
+            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15 Pro' \
+            test-without-building
