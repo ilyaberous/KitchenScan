@@ -43,5 +43,5 @@ jobs:
             -configuration Debug \
             -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15 Pro' \
+            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16 Pro' \
             test-without-building
