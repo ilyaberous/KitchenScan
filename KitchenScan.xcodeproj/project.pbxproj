@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		092E71EF2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */; };
 		092E71F62E74D93600BDBDFD /* CoreDataUniquenessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */; };
+		092F49612E94202900144BCE /* CoreDataStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092F49602E94202900144BCE /* CoreDataStackTests.swift */; };
 		0931FDDC2E6DE78500953414 /* KitchenScanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */; };
 		0931FDDE2E6DE78500953414 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDDD2E6DE78500953414 /* ContentView.swift */; };
 		0931FDE02E6DE78600953414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0931FDDF2E6DE78600953414 /* Assets.xcassets */; };
 		0931FDE32E6DE78600953414 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0931FDE22E6DE78600953414 /* Preview Assets.xcassets */; };
 		0931FDE82E6DE78600953414 /* KitchenScan.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */; };
+		099A16FA2E79C2FA008804B9 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099A16F92E79C2FA008804B9 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,12 +33,14 @@
 		092E71EC2E7484A300BDBDFD /* KitchenScanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KitchenScanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModelMetadataTests.swift; sourceTree = "<group>"; };
 		092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUniquenessTests.swift; sourceTree = "<group>"; };
+		092F49602E94202900144BCE /* CoreDataStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackTests.swift; sourceTree = "<group>"; };
 		0931FDD82E6DE78500953414 /* KitchenScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitchenScanApp.swift; sourceTree = "<group>"; };
 		0931FDDD2E6DE78500953414 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0931FDDF2E6DE78600953414 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0931FDE22E6DE78600953414 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0931FDE72E6DE78600953414 /* KitchenScan.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KitchenScan.xcdatamodel; sourceTree = "<group>"; };
+		099A16F92E79C2FA008804B9 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +64,27 @@
 		092E71ED2E7484A300BDBDFD /* KitchenScanTests */ = {
 			isa = PBXGroup;
 			children = (
-				092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */,
-				092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */,
+				092F495F2E941F7D00144BCE /* CoreDataStackTests */,
+				092F495E2E941F0E00144BCE /* CoreDataModelTests */,
 			);
 			path = KitchenScanTests;
+			sourceTree = "<group>";
+		};
+		092F495E2E941F0E00144BCE /* CoreDataModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				092E71F52E74D93600BDBDFD /* CoreDataUniquenessTests.swift */,
+				092E71EE2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift */,
+			);
+			path = CoreDataModelTests;
+			sourceTree = "<group>";
+		};
+		092F495F2E941F7D00144BCE /* CoreDataStackTests */ = {
+			isa = PBXGroup;
+			children = (
+				092F49602E94202900144BCE /* CoreDataStackTests.swift */,
+			);
+			path = CoreDataStackTests;
 			sourceTree = "<group>";
 		};
 		0931FDCF2E6DE78500953414 = {
@@ -89,6 +110,7 @@
 			children = (
 				0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */,
 				0931FDDD2E6DE78500953414 /* ContentView.swift */,
+				099A16F92E79C2FA008804B9 /* CoreDataStack.swift */,
 				0931FDDF2E6DE78600953414 /* Assets.xcassets */,
 				0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */,
 				0931FDE12E6DE78600953414 /* Preview Content */,
@@ -205,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				092E71F62E74D93600BDBDFD /* CoreDataUniquenessTests.swift in Sources */,
+				092F49612E94202900144BCE /* CoreDataStackTests.swift in Sources */,
 				092E71EF2E7484A300BDBDFD /* CoreDataModelMetadataTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,6 +239,7 @@
 				0931FDDE2E6DE78500953414 /* ContentView.swift in Sources */,
 				0931FDDC2E6DE78500953414 /* KitchenScanApp.swift in Sources */,
 				0931FDE82E6DE78600953414 /* KitchenScan.xcdatamodeld in Sources */,
+				099A16FA2E79C2FA008804B9 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
