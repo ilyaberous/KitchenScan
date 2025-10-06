@@ -8,12 +8,19 @@
 import Foundation
 import CoreData
 
+// MARK: - CoreData Store Kind
 public enum CoreDataStoreKind {
     case inMemory
     case sqlite(URL?)
 }
 
 public final class CoreDataStack {
+    // MARK: - Store Error
+    enum StoreError: Error {
+        case appSupportResolutionFailed
+        case persistentStoreLoadFailed(underlying: Error)
+    }
+    
     // MARK: - Properties
     
     public let container: NSPersistentContainer
@@ -33,12 +40,12 @@ public final class CoreDataStack {
         }
 
         container = NSPersistentContainer(name: modelName, managedObjectModel: model)
-        let desc = makeStoreDescription(modelName: modelName, kind: kind)
+        let desc = try makeStoreDescription(modelName: modelName, kind: kind)
         container.persistentStoreDescriptions = [desc]
 
         var loadError: Error?
         container.loadPersistentStores { _, error in loadError = error }
-        if let error = loadError { throw error }
+        if let error = loadError { throw StoreError.persistentStoreLoadFailed(underlying: error) }
 
         configure(viewContext: container.viewContext)
     }
@@ -80,14 +87,14 @@ public final class CoreDataStack {
         viewContext.undoManager = nil
     }
     
-    private func makeStoreDescription(modelName: String, kind: CoreDataStoreKind) -> NSPersistentStoreDescription {
+    private func makeStoreDescription(modelName: String, kind: CoreDataStoreKind) throws -> NSPersistentStoreDescription {
         let desc: NSPersistentStoreDescription
         switch kind {
         case .inMemory:
             desc = NSPersistentStoreDescription()
             desc.type = NSInMemoryStoreType
         case .sqlite(let customURL):
-            let url = customURL ?? Self.defaultSQLiteURL(modelName: modelName)
+            let url = try (customURL ?? Self.defaultSQLiteURL(modelName: modelName))
             desc = NSPersistentStoreDescription(url: url)
             desc.type = NSSQLiteStoreType
             desc.shouldAddStoreAsynchronously = false
@@ -98,9 +105,14 @@ public final class CoreDataStack {
         return desc
     }
 
-    private static func defaultSQLiteURL(modelName: String) -> URL {
+    private static func defaultSQLiteURL(modelName: String) throws -> URL {
         let fm = FileManager.default
-        let base = try! fm.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        guard let base = try? fm.url(for: .applicationSupportDirectory,
+                                     in: .userDomainMask,
+                                     appropriateFor: nil,
+                                     create: true) else {
+               throw StoreError.appSupportResolutionFailed
+        }
         let dir = base.appendingPathComponent(modelName, isDirectory: true)
         if !fm.fileExists(atPath: dir.path) {
             try? fm.createDirectory(at: dir, withIntermediateDirectories: true)

@@ -87,6 +87,15 @@
 			path = CoreDataStackTests;
 			sourceTree = "<group>";
 		};
+		092F49622E9437AC00144BCE /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */,
+				099A16F92E79C2FA008804B9 /* CoreDataStack.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		0931FDCF2E6DE78500953414 = {
 			isa = PBXGroup;
 			children = (
@@ -108,11 +117,10 @@
 		0931FDDA2E6DE78500953414 /* KitchenScan */ = {
 			isa = PBXGroup;
 			children = (
+				092F49622E9437AC00144BCE /* Persistence */,
 				0931FDDB2E6DE78500953414 /* KitchenScanApp.swift */,
 				0931FDDD2E6DE78500953414 /* ContentView.swift */,
-				099A16F92E79C2FA008804B9 /* CoreDataStack.swift */,
 				0931FDDF2E6DE78600953414 /* Assets.xcassets */,
-				0931FDE62E6DE78600953414 /* KitchenScan.xcdatamodeld */,
 				0931FDE12E6DE78600953414 /* Preview Content */,
 			);
 			path = KitchenScan;
