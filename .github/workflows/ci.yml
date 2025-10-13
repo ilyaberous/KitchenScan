@@ -1,4 +1,4 @@
-name: IOS CI
+name: iOS CI
 
 on:
   push:
@@ -18,8 +18,44 @@ jobs:
         with:
           xcode-version: '16.4'
 
-      # - name: List simulators (debug aid)
-      #   run: xcrun simctl list devices
+      - name: Pick simulator (dynamic)
+        id: pick-sim
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "== Runtimes =="; xcrun simctl list runtimes
+          echo "== Devices ==";  xcrun simctl list devices
+
+          # Берём доступный iOS 18.* или любой доступный iOS
+          RUNTIME=$(xcrun simctl list runtimes | awk -F'[()]' '/iOS 18/ && /available/ {print $2; exit}')
+          if [[ -z "${RUNTIME:-}" ]]; then
+            RUNTIME=$(xcrun simctl list runtimes | awk -F'[()]' '/iOS/ && /available/ {print $2; exit}')
+          fi
+          [[ -n "${RUNTIME:-}" ]] || { echo "ERROR: No iOS runtime found"; exit 1; }
+          echo "Picked runtime: $RUNTIME"
+
+          # Предпочитаем iPhone 16 Pro, иначе любой iPhone для этого рантайма
+          DEVICE=$(xcrun simctl list devices | awk -v rt="$RUNTIME" -F'[()]' '$0~rt && $0 ~ /iPhone 16 Pro/ && $0 !~ /unavailable/ {print $1; exit}')
+          if [[ -z "${DEVICE:-}" ]]; then
+            DEVICE=$(xcrun simctl list devices | awk -v rt="$RUNTIME" -F'[()]' '$0~rt && $0 ~ /iPhone/ && $0 !~ /unavailable/ {print $1; exit}')
+          fi
+          [[ -n "${DEVICE:-}" ]] || { echo "ERROR: No iPhone device for $RUNTIME"; exit 1; }
+          echo "Picked device: $DEVICE"
+
+          # UDID выбранного девайса
+          UDID=$(xcrun simctl list devices | awk -v dev="$DEVICE" -v rt="$RUNTIME" '$0 ~ dev && $0 ~ rt {gsub(/.*\(|\).*/,""); print $0; exit}')
+          echo "udid=$UDID"
+          echo "UDID=$UDID" >> $GITHUB_OUTPUT
+          echo "DESTINATION=platform=iOS Simulator,OS=${RUNTIME#iOS },name=$DEVICE" >> $GITHUB_OUTPUT
+
+      - name: Boot simulator
+        run: |
+          set -euo pipefail
+          xcrun simctl boot "${{ steps.pick-sim.outputs.UDID }}" || true
+          xcrun simctl bootstatus "${{ steps.pick-sim.outputs.UDID }}" -b
+
+      - name: Resolve SPM
+        run: xcodebuild -scheme "KitchenScan" -resolvePackageDependencies
 
       - name: Build for Testing (Debug)
         run: |
@@ -27,13 +63,16 @@ jobs:
           xcodebuild \
             -scheme "KitchenScan" \
             -configuration Debug \
+            -sdk iphonesimulator \
             -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16 Pro' \
+            -destination '${{ steps.pick-sim.outputs.DESTINATION }}' \
+            -destination-timeout 300 \
             clean build-for-testing \
             SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
             CLANG_WARN_UNGUARDED_AVAILABILITY=YES_AGGRESSIVE \
-            IPHONEOS_DEPLOYMENT_TARGET=16.2
+            IPHONEOS_DEPLOYMENT_TARGET=16.2 \
+            -showBuildTimingSummary
 
       - name: Test (without building)
         run: |
@@ -41,7 +80,20 @@ jobs:
           xcodebuild \
             -scheme "KitchenScan" \
             -configuration Debug \
+            -sdk iphonesimulator \
             -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16 Pro' \
-            test-without-building
+            -destination '${{ steps.pick-sim.outputs.DESTINATION }}' \
+            -destination-timeout 300 \
+            -parallel-testing-enabled NO \
+            -only-testing:KitchenScanTests \
+            test-without-building \
+            -resultBundlePath TestResults.xcresult \
+            -quiet
+
+      - name: Upload test result bundle (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult
+          path: TestResults.xcresult
