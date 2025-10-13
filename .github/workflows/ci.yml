@@ -18,35 +18,45 @@ jobs:
         with:
           xcode-version: '16.4'
 
-      - name: Pick simulator (dynamic)
+      - name: Pick simulator (robust by UDID)
         id: pick-sim
         shell: bash
         run: |
           set -euo pipefail
           echo "== Runtimes =="; xcrun simctl list runtimes
-          echo "== Devices ==";  xcrun simctl list devices
+          echo "== Devices (all) =="; xcrun simctl list devices
 
-          # Берём доступный iOS 18.* или любой доступный iOS
-          RUNTIME=$(xcrun simctl list runtimes | awk -F'[()]' '/iOS 18/ && /available/ {print $2; exit}')
-          if [[ -z "${RUNTIME:-}" ]]; then
-            RUNTIME=$(xcrun simctl list runtimes | awk -F'[()]' '/iOS/ && /available/ {print $2; exit}')
+          # 1) Выбираем iOS runtime: приоритет 18.6 → 18.5 → 18.4, иначе любой iOS
+          RUNTIME_LINE="$(xcrun simctl list runtimes | grep -E '^iOS (18\.6|18\.5|18\.4)' | head -n1 || true)"
+          if [[ -z "${RUNTIME_LINE}" ]]; then
+            RUNTIME_LINE="$(xcrun simctl list runtimes | grep -E '^iOS [0-9]+\.[0-9]+' | tail -n1)"
           fi
-          [[ -n "${RUNTIME:-}" ]] || { echo "ERROR: No iOS runtime found"; exit 1; }
-          echo "Picked runtime: $RUNTIME"
+          echo "Picked runtime line: $RUNTIME_LINE"
 
-          # Предпочитаем iPhone 16 Pro, иначе любой iPhone для этого рантайма
-          DEVICE=$(xcrun simctl list devices | awk -v rt="$RUNTIME" -F'[()]' '$0~rt && $0 ~ /iPhone 16 Pro/ && $0 !~ /unavailable/ {print $1; exit}')
-          if [[ -z "${DEVICE:-}" ]]; then
-            DEVICE=$(xcrun simctl list devices | awk -v rt="$RUNTIME" -F'[()]' '$0~rt && $0 ~ /iPhone/ && $0 !~ /unavailable/ {print $1; exit}')
+          # Извлекаем идентификатор рантайма, например com.apple.CoreSimulator.SimRuntime.iOS-18-6
+          RUNTIME_ID="$(sed -E 's/.*(com\.apple\.CoreSimulator\.SimRuntime\.iOS-[0-9-]+).*/\1/' <<< "$RUNTIME_LINE")"
+          [[ -n "$RUNTIME_ID" ]] || { echo "ERROR: No iOS runtime id"; exit 1; }
+          echo "RUNTIME_ID=$RUNTIME_ID"
+
+          echo "== Devices for runtime =="
+          xcrun simctl list devices "$RUNTIME_ID"
+
+          # 2) Берём девайс: сперва iPhone 16 Pro, иначе любой iPhone
+          DEVICE_LINE="$(xcrun simctl list devices "$RUNTIME_ID" | grep -E 'iPhone 16 Pro' | head -n1 || true)"
+          if [[ -z "${DEVICE_LINE}" ]]; then
+            DEVICE_LINE="$(xcrun simctl list devices "$RUNTIME_ID" | grep -E 'iPhone ' | head -n1)"
           fi
-          [[ -n "${DEVICE:-}" ]] || { echo "ERROR: No iPhone device for $RUNTIME"; exit 1; }
-          echo "Picked device: $DEVICE"
+          echo "Picked device line: $DEVICE_LINE"
 
-          # UDID выбранного девайса
-          UDID=$(xcrun simctl list devices | awk -v dev="$DEVICE" -v rt="$RUNTIME" '$0 ~ dev && $0 ~ rt {gsub(/.*\(|\).*/,""); print $0; exit}')
-          echo "udid=$UDID"
-          echo "UDID=$UDID" >> $GITHUB_OUTPUT
-          echo "DESTINATION=platform=iOS Simulator,OS=${RUNTIME#iOS },name=$DEVICE" >> $GITHUB_OUTPUT
+          # Имя девайса (до первой скобки)
+          DEVICE_NAME="$(sed -E 's/ *\([^)]*\).*//' <<< "$DEVICE_LINE" | sed -E 's/^ *//; s/ *$//')"
+          # UDID (первые круглые скобки)
+          UDID="$(sed -E 's/.*\(([0-9A-F-]+)\).*/\1/' <<< "$DEVICE_LINE")"
+
+          [[ -n "$UDID" && -n "$DEVICE_NAME" ]] || { echo "ERROR: Could not extract UDID/device"; exit 1; }
+
+          echo "Using device: $DEVICE_NAME"
+          echo "UDID=$UDID" >> "$GITHUB_OUTPUT"
 
       - name: Boot simulator
         run: |
@@ -66,7 +76,7 @@ jobs:
             -sdk iphonesimulator \
             -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination '${{ steps.pick-sim.outputs.DESTINATION }}' \
+            -destination "id=${{ steps.pick-sim.outputs.UDID }}" \
             -destination-timeout 300 \
             clean build-for-testing \
             SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
@@ -83,7 +93,7 @@ jobs:
             -sdk iphonesimulator \
             -derivedDataPath build \
             -enableCodeCoverage YES \
-            -destination '${{ steps.pick-sim.outputs.DESTINATION }}' \
+            -destination "id=${{ steps.pick-sim.outputs.UDID }}" \
             -destination-timeout 300 \
             -parallel-testing-enabled NO \
             -only-testing:KitchenScanTests \
