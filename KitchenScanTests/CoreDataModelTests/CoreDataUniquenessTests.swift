@@ -10,29 +10,7 @@ import CoreData
 @testable import KitchenScan
 
 final class CoreDataUniquenessTests: XCTestCase {
-    private func makeSQLiteContainer() throws -> (NSPersistentContainer, URL) {
-        let url  =
-        Bundle.main.url(forResource: "KitchenScan", withExtension: "momd")!
-        let model = NSManagedObjectModel(contentsOf: url)!
-        
-        let storeURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("KS-\(UUID().uuidString).sqlite")
-        
-        let desc = NSPersistentStoreDescription(url: storeURL)
-        desc.type = NSSQLiteStoreType
-        desc.shouldAddStoreAsynchronously = false
-        desc.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
-        desc.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
-        
-        let container = NSPersistentContainer(name: "KitchenScan", managedObjectModel: model)
-        container.persistentStoreDescriptions = [desc]
-        
-        var loadErr: Error?
-        container.loadPersistentStores { _, e in loadErr = e }
-        XCTAssertNil(loadErr)
-        
-        return (container, storeURL)
-    }
+    // MARK: - Tests
     
     func test_entities_withSameBarcode_noExist() throws {
         let (container, storeURL) = try makeSQLiteContainer()
@@ -81,5 +59,31 @@ final class CoreDataUniquenessTests: XCTestCase {
         req.includesPendingChanges = false
         let rows = try viewCtx.fetch(req)
         XCTAssertEqual(rows.count, 1)
+    }
+    
+    // MARK: - Helpers
+    
+    private func makeSQLiteContainer() throws -> (NSPersistentContainer, URL) {
+        let url  =
+        Bundle.main.url(forResource: "KitchenScan", withExtension: "momd")!
+        let model = NSManagedObjectModel(contentsOf: url)!
+        
+        let storeURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("KS-\(UUID().uuidString).sqlite")
+        
+        let desc = NSPersistentStoreDescription(url: storeURL)
+        desc.type = NSSQLiteStoreType
+        desc.shouldAddStoreAsynchronously = false
+        desc.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
+        desc.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
+        
+        let container = NSPersistentContainer(name: "KitchenScan", managedObjectModel: model)
+        container.persistentStoreDescriptions = [desc]
+        
+        var loadErr: Error?
+        container.loadPersistentStores { _, e in loadErr = e }
+        XCTAssertNil(loadErr)
+        
+        return (container, storeURL)
     }
 }
