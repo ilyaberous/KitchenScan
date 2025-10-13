@@ -50,9 +50,6 @@ jobs:
           xcrun simctl boot "${{ steps.pick-sim.outputs.UDID }}" || true
           xcrun simctl bootstatus "${{ steps.pick-sim.outputs.UDID }}" -b
 
-      - name: Resolve SPM
-        run: xcodebuild -scheme "KitchenScan" -resolvePackageDependencies
-
       - name: Build for Testing (Debug)
         run: |
           set -euo pipefail
